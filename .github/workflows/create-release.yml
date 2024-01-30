@@ -15,6 +15,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Create .github directory
+        run: mkdir -p .github
+
       - name: Fetch Release Configuration
         run: gh api repos/tectonic/.github/contents/.github/release.yml | jq -r '.content' | base64 -d > .github/release.yml
 

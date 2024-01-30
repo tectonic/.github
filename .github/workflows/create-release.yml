@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -18,5 +20,3 @@ jobs:
 
       - name: Create Release
         run: gh release create ${{ github.ref }} --generate-notes
-        env:
-          GH_TOKEN: ${{ github.token }}

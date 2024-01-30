@@ -16,17 +16,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Fetch Release Configuration
-        id: fetch-config
-        run: |
-          OUTPUT=$(gh api repos/tectonic/.github/contents/.github/release.yml | jq -r '.content' | base64 -d)
-          echo "$OUTPUT" > .github/release.yml
-          echo "::set-output name=fetch-output::$OUTPUT"
-      
-      - name: Print Fetch Output
-        run: echo "${{ steps.fetch-config.outputs.fetch-output }}"
+        run: gh api repos/tectonic/.github/contents/.github/release.yml | jq -r '.content' | base64 -d > .github/release.yml
 
       - name: Display structure of downloaded files
-        run: ls -R
+        run: git status
 
       - name: Create Release
         run: gh release create ${{ github.ref }} --generate-notes

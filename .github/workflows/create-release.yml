@@ -12,6 +12,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Get Shared Release Configuration
+        uses: actions/download-artifact@v2
+        with:
+          name: shared-release-config
+          path: .github/release.yml
+          repository: tectonic/.github
+
       - name: Create Release
         run: gh release create ${{ github.ref }} --generate-notes
         env:

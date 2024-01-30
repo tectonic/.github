@@ -39,7 +39,7 @@ jobs:
         uses: stefanzweifel/changelog-updater-action@v1
         with:
           release-notes: ${{ steps.latest_release.outputs.release_body }}
-          latest-version: ${{ steps.latest_release.outputs.tag_name }}
+          latest-version: ${{ steps.latest_release.outputs.release_name }}
           parse-github-usernames: true
 
       - name: Commit updated CHANGELOG

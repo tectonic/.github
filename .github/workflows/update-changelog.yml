@@ -28,8 +28,10 @@ jobs:
             latest_release_body=$(echo "$latest_release_info" | jq -r '.body')
           
             # Save release details
-            echo "::set-output name=release_name::${latest_release_name}"
-            echo "::set-output name=release_body::${latest_release_body}"
+            echo "release_name=${latest_release_name}" >> $GITHUB_OUTPUT
+            echo 'release_body<<EOF' >> $GITHUB_OUTPUT
+            ${latest_release_body} >> $GITHUB_OUTPUT
+            echo 'EOF' >> $GITHUB_OUTPUT
           else
             echo "Latest release information not found."
             exit 1

@@ -16,8 +16,12 @@ jobs:
       - name: Get Shared Release Configuration
         uses: actions/download-artifact@v4
         with:
-          path: .github/release.yml
+          name: .github/release.yml
+          path: .github
           repository: tectonic/.github
+
+      - name: Display structure of downloaded files
+        run: ls -R
 
       - name: Create Release
         run: gh release create ${{ github.ref }} --generate-notes

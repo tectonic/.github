@@ -5,31 +5,40 @@ on:
 
 jobs:
   update:
+    name: Update Changelog
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          # Fetch entire history of repository to ensure relase date can be
-          # extracted from commit of the given tag.
-          fetch-depth: 0
-          # Checkout target branch of this release. Ensures that the CHANGELOG
-          # is not out of date.
-          ref: ${{ github.event.release.target_commitish }}
+          ref: master
+
+      - name: Get Latest Release Info
+        id: latest_release
+        run: |
+          # Get the latest release tag name
+          latest_tag_name=$(gh release view latest --json name --repo owner/repository | jq -r '.name')
+          echo "::set-output name=tag_name::${latest_tag_name}"
+          
+          # Get the latest release body
+          latest_release_body=$(gh release view latest --json body --repo owner/repository | jq -r '.body')
+          echo "::set-output name=release_body::${latest_release_body}"
+
 
       - name: Update Changelog
         uses: stefanzweifel/changelog-updater-action@v1
         with:
-          release-notes: ${{ github.event.release.body }}
-          latest-version: ${{ github.event.release.tag_name }}
-          compare-url-target-revision: ${{ github.event.release.target_commitish }}
+          release-notes: ${{ steps.latest_release.outputs.release_body }}
+          latest-version: ${{ steps.latest_release.outputs.tag_name }}
           parse-github-usernames: true
 
       - name: Commit updated CHANGELOG
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           # Push updated CHANGELOG to release target branch.
-          branch: ${{ github.event.release.target_commitish }}
+          branch: master
           commit_message: Update CHANGELOG
           file_pattern: CHANGELOG.md

@@ -19,13 +19,14 @@ jobs:
       - name: Get Latest Release Info
         id: latest_release
         run: |
-          # Get the latest release tag name
-          latest_tag_name=$(gh release view latest --json name --repo owner/repository | jq -r '.name')
-          echo "::set-output name=tag_name::${latest_tag_name}"
-          
-          # Get the latest release body
-          latest_release_body=$(gh release view latest --json body --repo owner/repository | jq -r '.body')
-          echo "::set-output name=release_body::${latest_release_body}"
+          # Get the latest release information
+          latest_release_info=$(gh release view --json name,body)
+          latest_release_name=$(echo "$latest_release_info" | jq -r '.name')
+          latest_release_body=$(echo "$latest_release_info" | jq -r '.body')
+      
+          # Save release details
+          echo "tag_name=${latest_tag_name}" >> $GITHUB_OUTPUT
+          echo "release_body=${latest_release_body}" >> $GITHUB_OUTPUT
 
 
       - name: Update Changelog

@@ -21,13 +21,19 @@ jobs:
         run: |
           # Get the latest release information
           latest_release_info=$(gh release view --json name,body)
-          latest_release_name=$(echo "$latest_release_info" | jq -r '.name')
-          latest_release_body=$(echo "$latest_release_info" | jq -r '.body')
-      
-          # Save release details
-          echo "tag_name=${latest_tag_name}" >> $GITHUB_OUTPUT
-          echo "release_body=${latest_release_body}" >> $GITHUB_OUTPUT
 
+          # Extract release details if the information is available
+          if [ -n "$latest_release_info" ]; then
+            latest_release_name=$(echo "$latest_release_info" | jq -r '.name')
+            latest_release_body=$(echo "$latest_release_info" | jq -r '.body')
+          
+            # Save release details
+            echo "::set-output name=release_name::${latest_release_name}"
+            echo "::set-output name=release_body::${latest_release_body}"
+          else
+            echo "Latest release information not found."
+            exit 1
+          fi
 
       - name: Update Changelog
         uses: stefanzweifel/changelog-updater-action@v1

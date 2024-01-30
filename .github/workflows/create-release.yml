@@ -13,15 +13,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Get Shared Release Configuration
-        uses: actions/download-artifact@v4
-        with:
-          name: .github/release.yml
-          path: .github
-          repository: tectonic/.github
-
-      - name: Display structure of downloaded files
-        run: ls -R
+      - name: Fetch Release Configuration
+        run: gh api repos/tectonic/.github/contents/.github/release.yml | jq -r '.content' | base64 -d > .github/release.yml
 
       - name: Create Release
         run: gh release create ${{ github.ref }} --generate-notes

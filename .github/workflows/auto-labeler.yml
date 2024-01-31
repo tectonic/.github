@@ -3,6 +3,10 @@ name: Auto Labeler
 on:
   workflow_call:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   autolabeler:
     runs-on: ubuntu-latest

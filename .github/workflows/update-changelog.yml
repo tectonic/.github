@@ -42,7 +42,6 @@ jobs:
         with:
           release-notes: ${{ steps.latest_release.outputs.release_body }}
           latest-version: ${{ steps.latest_release.outputs.release_name }}
-          compare-url-target-revision: master
           parse-github-usernames: true
 
       - name: Commit updated CHANGELOG

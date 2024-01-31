@@ -1,0 +1,19 @@
+name: Auto Labeler
+
+on:
+  workflow_call:
+
+jobs:
+  autolabeler:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: release-drafter/release-drafter@v5
+        with:
+          disable-releaser: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -8,7 +8,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  autolabeler:
+  auto-labeler:
     runs-on: ubuntu-latest
 
     permissions:

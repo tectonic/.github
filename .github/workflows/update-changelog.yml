@@ -37,7 +37,8 @@ jobs:
             echo 'EOF' >> $GITHUB_OUTPUT
 
           else
-            core.setFailed('Workflow failed. Latest release information not found.')
+            echo "Workflow failed. Latest release information not found." >&2
+            exit 1
           fi
 
       - name: Update Changelog

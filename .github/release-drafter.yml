@@ -1,4 +1,5 @@
-ame-template: 'v$RESOLVED_VERSION'
+# Configuration for Release Drafter: https://github.com/toolmantim/release-drafter
+name-template: 'v$RESOLVED_VERSION'
 tag-template: 'v$RESOLVED_VERSION'
 template: |
   $CHANGES
@@ -6,21 +7,41 @@ template: |
   **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
 
 categories:
-  - title: ✨ Features
+  - title: 💥 Breaking changes
+    labels:
+      - breaking
+  - title: 🚀 New Features and Improvements
     labels:
       - enhancement
+      - feature
   - title: 🐛 Bug Fixes
     labels:
       - bug
+      - fix
+      - bugfix
   - title: 🛡️ Security
     labels:
       - security
-  - title: 🔄 Dependency Updates
+  - title: 👻 Maintenance
+    labels:
+      - chore
+      - internal
+      - maintenance
+  - title: 🚦 Tests
+    labels:
+      - test
+      - tests
+  - title: 📦 Dependency Updates
     labels:
       - dependencies
-  - title: 🚀 Other Changes
-    labels:
-      - "*"
+    collapse-after: 5
+  - title: ✍️ Other Changes
+  # Default label used by Dependabot
+
+exclude-labels:
+  - reverted
+  - no-changelog
+  - skip-changelog
 
 version-resolver:
   minor:
@@ -28,7 +49,14 @@ version-resolver:
       - minor
   patch:
     labels:
-      - "*"
+      - patch
+  default: patch
 
-exclude-labels:
-  - skip-changelog
+autolabeler:
+  - label: bug
+    branch:
+      - '/fix\/.+/'
+      - '/bugfix\/.+/'
+  - label: enhancement
+    branch:
+      - '/feature\/.+/'

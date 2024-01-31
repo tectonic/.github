@@ -1,0 +1,38 @@
+ame-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+template: |
+  # What's Changed
+
+  $CHANGES
+
+  **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
+
+categories:
+  - title: ✨ Features
+    labels:
+      - enhancement
+  - title: 🐛 Bug Fixes
+    labels:
+      - bug
+  - title: 🛡️ Security
+    labels:
+      - security
+  - title: 🔄 Dependency Updates
+    labels:
+      - dependencies
+  - title: 🚀 Other Changes
+    labels:
+      - "*"
+
+version-resolver:
+  minor:
+    labels:
+      - enhancement
+  patch:
+    labels:
+      - bug
+      - security
+      - dependency
+
+exclude-labels:
+  - skip-changelog

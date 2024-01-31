@@ -60,8 +60,11 @@ autolabeler:
   - label: enhancement
     branch:
       - '/feature\/.+/'
-  - label: 'has-frontend'
+  - label: has-frontend
     files:
       - '*.js'
       - '*.ts'
       - '*.vue'
+  - label: has-migration
+    files:
+      - 'migrations/*'

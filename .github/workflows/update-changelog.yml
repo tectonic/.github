@@ -7,9 +7,6 @@ jobs:
   update:
     runs-on: ubuntu-latest
 
-    env:
-      GH_TOKEN: ${{ github.token }}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -19,6 +16,8 @@ jobs:
 
       - name: Get Latest Release Info
         id: latest_release
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           # Get the latest release information
           latest_release_info=$(gh release view --json name,body)

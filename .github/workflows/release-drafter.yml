@@ -3,6 +3,10 @@ name: Release Drafter
 on:
   workflow_call:
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
   update_release_draft:
     runs-on: ubuntu-latest

@@ -5,8 +5,6 @@ tag-template: 'v$RESOLVED_VERSION'
 
 template: $CHANGES
 
-change-template: "- $TITLE ([#$NUMBER](https://github.com/${{ github.repository }}/pull/$NUMBER)) @$AUTHOR"
-
 categories:
   - title: 💥 Breaking changes
     labels:

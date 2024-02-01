@@ -42,6 +42,9 @@ exclude-labels:
   - skip-changelog
 
 version-resolver:
+  major:
+    labels:
+      - major
   minor:
     labels:
       - minor

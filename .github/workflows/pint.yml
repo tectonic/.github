@@ -1,0 +1,53 @@
+name: "Run Laravel Pint"
+
+on:
+  workflow_call:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  pint:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: "Check if Pint should run"
+        id: changed-files
+        uses: tj-actions/changed-files@v41
+        with:
+          files: |
+            **/*.php
+          files_ignore: |
+            resources
+            storage
+            contrib
+            public
+
+      - name: "Install Laravel Pint"
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          PINT_VERSION=$(jq -r '."packages-dev"[] | select(.name == "laravel/pint") | .version' composer.lock)
+          if [[ $PINT_VERSION = "" ]];
+            then
+              composer global require laravel/pint --no-progress --dev
+            else
+              composer global require laravel/pint:$PINT_VERSION --no-progress --dev
+          fi
+
+      - name: "Run Pint"
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: ~/.composer/vendor/bin/pint --config pint.json ${{ steps.changed-files.outputs.all_changed_files }}
+
+      - name: "Commit Pint changes"
+        uses: stefanzweifel/git-auto-commit-action@v5
+        if: steps.changed-files.outputs.any_changed == 'true'
+        with:
+          commit_message: Fixed Pint errors

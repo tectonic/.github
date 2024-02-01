@@ -1,4 +1,4 @@
-name: Update Changelog
+name: "Update Changelog"
 
 on:
   workflow_call:
@@ -13,13 +13,13 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout code
+      - name: "Checkout code"
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: master
 
-      - name: Get Latest Release Info
+      - name: "Get Latest Release Info"
         id: latest_release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -43,14 +43,14 @@ jobs:
             exit 1
           fi
 
-      - name: Update Changelog
+      - name: "Update Changelog"
         uses: stefanzweifel/changelog-updater-action@v1
         with:
           release-notes: ${{ steps.latest_release.outputs.release_body }}
           latest-version: ${{ steps.latest_release.outputs.release_name }}
           parse-github-usernames: true
 
-      - name: Commit updated CHANGELOG
+      - name: "Commit updated CHANGELOG"
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           # Push updated CHANGELOG to release target branch.

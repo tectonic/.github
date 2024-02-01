@@ -1,12 +1,10 @@
-name: Add code review checklist
-
-run-name: Add code review checklist comment
+name: Add review checklist
 
 on:
   workflow_call:
 
 jobs:
-  add-checklist:
+  add-review-checklist:
     if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:

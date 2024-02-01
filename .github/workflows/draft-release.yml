@@ -9,7 +9,7 @@ concurrency:
 
 jobs:
   draft_release:
-    name: ""
+    name: "Draft Release"
 
     runs-on: ubuntu-latest
 

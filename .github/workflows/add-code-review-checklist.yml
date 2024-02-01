@@ -1,0 +1,23 @@
+name: Add code review checklist
+
+run-name: Add code review checklist comment
+
+on:
+  workflow_call:
+
+jobs:
+  add-checklist:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add code review checklist
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: 'Code review checklist:\n - Functionality\n - Code Structure and Design\n - Code Reuse and Dependencies\n - Compliance with Coding Standards\n - Readability and Maintainability\n - Performance and Efficiency\n - Error Handling and Logging\n - Security\n - Test Coverage\n - Migrations\n - Documentation\n\n For further details on the above - https://creativeforce.atlassian.net/wiki/spaces/DEV/pages/1838317578/Code+review+checklist'
+            });

@@ -5,6 +5,8 @@ on:
 
 jobs:
   publish:
+    name: "Publish Draft Release"
+
     runs-on: ubuntu-latest
 
     env:

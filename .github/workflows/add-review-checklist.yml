@@ -5,11 +5,15 @@ on:
 
 jobs:
   add-review-checklist:
+    name: "Add review checklist"
+
     if: github.event.pull_request.draft == false
+
     runs-on: ubuntu-latest
+
     steps:
       - name: Add code review checklist
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |

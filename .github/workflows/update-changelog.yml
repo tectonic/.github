@@ -5,6 +5,8 @@ on:
 
 jobs:
   update:
+    name: "Update Changelog"
+
     runs-on: ubuntu-latest
 
     permissions:

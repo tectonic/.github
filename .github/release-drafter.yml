@@ -35,7 +35,6 @@ categories:
       - dependencies
     collapse-after: 5
   - title: ✍️ Other Changes
-  # Default label used by Dependabot
 
 exclude-labels:
   - reverted
@@ -56,6 +55,7 @@ autolabeler:
     branch:
       - '/fix\/.+/'
       - '/bugfix\/.+/'
+      - '/hotfix\/.+/'
   - label: enhancement
     branch:
       - '/feature\/.+/'

@@ -9,6 +9,8 @@ concurrency:
 
 jobs:
   draft_release:
+    name: ""
+
     runs-on: ubuntu-latest
 
     steps:

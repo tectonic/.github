@@ -61,7 +61,7 @@ autolabeler:
       - '/fix\/.+/'
       - '/bugfix\/.+/'
       - '/hotfix\/.+/'
-  - label: enhancement
+  - label: feature
     branch:
       - '/feature\/.+/'
   - label: has-frontend

@@ -39,6 +39,7 @@ categories:
   - title: ✍️ Other Changes
 
 exclude-labels:
+  - linting
   - reverted
   - no-changelog
   - skip-changelog

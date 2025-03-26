@@ -1,0 +1,52 @@
+name: "Notify Slack Release"
+
+on:
+  workflow_call:
+
+jobs:
+  notify:
+    name: "Send Notification"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Get Latest Release"
+        id: latest-release
+        uses: actions/github-script@v7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          script: |
+            const release = await github.rest.repos.getLatestRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+
+            return {
+              tag: release.data.tag_name,
+              body: release.data.body,
+              url: release.data.html_url
+            };
+
+      - name: "Send Slack Notification"
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          webhook: ${{ secrets.SLACK_RELEASE_BOT_WEBHOOK_URL }}
+          webhook-type: webhook-trigger
+          payload: |
+            {
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "🚀 ${{ context.repo.repo }} ${{ fromJSON(steps.latest-release.outputs.result).tag }} released!"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "${{ fromJSON(steps.latest-release.outputs.result).url }}"
+                  }
+                }
+              ]
+            }

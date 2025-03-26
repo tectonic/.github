@@ -16,10 +16,15 @@ categories:
       - improvement
   - title: 🐛 Bug Fixes
     labels:
-      - bugfix  
-  - title: 📁 Has migrations
+      - bug
+  - title: 📁 Has Migrations
     labels:
       - has-migration
+  - title: 📦 Security and Dependency Updates
+    labels:
+      - security
+      - dependencies
+  - title: ✍️ Other Changes
 
 exclude-labels:
   - linting
@@ -49,6 +54,9 @@ autolabeler:
   - label: improvement
     branch:
       - '/improvement\/.+/'
+  - label: security
+    branch:
+      - '/security\/.+/'
   - label: has-frontend
     files:
       - '*.js'

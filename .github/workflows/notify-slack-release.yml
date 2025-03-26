@@ -2,6 +2,10 @@ name: "Notify Slack Release"
 
 on:
   workflow_call:
+    secrets:
+      SLACK_WEBHOOK_URL:
+        required: true
+        description: "Slack webhook URL for release notifications"
 
 jobs:
   notify:
@@ -30,7 +34,7 @@ jobs:
       - name: "Send Slack Notification"
         uses: slackapi/slack-github-action@v2.0.0
         with:
-          webhook: ${{ secrets.SLACK_RELEASE_BOT_WEBHOOK_URL }}
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: webhook-trigger
           payload: |
             {

@@ -20,9 +20,8 @@ jobs:
               repo: context.repo.repo
             });
             
-            core.setOutput('repo_name', context.repo.repo);
-
             return {
+              repo: context.repo.repo,
               tag: release.data.tag_name,
               body: release.data.body,
               url: release.data.html_url
@@ -40,7 +39,7 @@ jobs:
                   "type": "header",
                   "text": {
                     "type": "plain_text",
-                    "text": "🚀 ${{ steps.latest-release.outputs.repo_name }} ${{ fromJSON(steps.latest-release.outputs.result).tag }} released!"
+                    "text": "🚀 ${{ fromJSON(steps.latest-release.outputs.result).repo }} ${{ fromJSON(steps.latest-release.outputs.result).tag }} released!"
                   }
                 },
                 {

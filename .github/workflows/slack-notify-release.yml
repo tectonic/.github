@@ -2,11 +2,10 @@ name: "Slack Notify Release"
 
 on:
   workflow_call:
-
-inputs:
-  webhook_url:
-    description: "Slack Webhook URL"
-    required: true
+    secrets:
+      webhook_url:
+        description: "Slack Webhook URL"
+        required: true
 
 jobs:
   notify-slack:
@@ -16,4 +15,4 @@ jobs:
       - name: "Notify Slack on Releases"
         uses: amendx/slackbot-release@1
         with:
-          slack_webhook_url: ${{ inputs.webhook_url }}
+          slack_webhook_url: ${{ secrets.webhook_url }}

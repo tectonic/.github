@@ -8,34 +8,22 @@ no-changes-template: '### No changes'
 template: $CHANGES
 
 categories:
-  - title: 💥 Breaking changes
+  - title: ✨ Features
     labels:
-      - breaking
-  - title: 🚀 New Features and Improvements
+      - feature  
+  - title: 🛠️ Improvements
     labels:
       - improvement
-      - feature
   - title: 🐛 Bug Fixes
     labels:
       - bug
-      - fix
-      - bugfix
-  - title: 🛡️ Security
+  - title: 📁 Has Migrations
+    labels:
+      - has-migration
+  - title: 📦 Security and Dependency Updates
     labels:
       - security
-  - title: 👻 Maintenance
-    labels:
-      - chore
-      - internal
-      - maintenance
-  - title: 🚦 Tests
-    labels:
-      - test
-      - tests
-  - title: 📦 Dependency Updates
-    labels:
       - dependencies
-    collapse-after: 5
   - title: ✍️ Other Changes
 
 exclude-labels:
@@ -59,12 +47,16 @@ version-resolver:
 autolabeler:
   - label: bug
     branch:
-      - '/fix\/.+/'
       - '/bugfix\/.+/'
-      - '/hotfix\/.+/'
   - label: feature
     branch:
       - '/feature\/.+/'
+  - label: improvement
+    branch:
+      - '/improvement\/.+/'
+  - label: security
+    branch:
+      - '/security\/.+/'
   - label: has-frontend
     files:
       - '*.js'

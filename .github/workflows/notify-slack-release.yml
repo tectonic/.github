@@ -50,7 +50,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "${{ fromJSON(steps.latest-release.outputs.result).url }}"
+                    "text": "Check out the release notes <${{ fromJSON(steps.latest-release.outputs.result).url }}|here>"
                   }
                 }
               ]

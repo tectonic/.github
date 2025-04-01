@@ -10,7 +10,7 @@ template: $CHANGES
 categories:
   - title: ✨ Features
     labels:
-      - feature  
+      - feature
   - title: 🛠️ Improvements
     labels:
       - improvement
@@ -65,3 +65,6 @@ autolabeler:
   - label: has-migration
     files:
       - 'migrations/*'
+  - label: change-to-colours
+    files:
+      - 'resources/views/theme/template/colours.blade.php'

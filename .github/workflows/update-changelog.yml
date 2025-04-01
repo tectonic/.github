@@ -53,7 +53,8 @@ jobs:
       - name: "Commit updated CHANGELOG"
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          # Push updated CHANGELOG to release target branch.
           branch: master
           commit_message: Update CHANGELOG
           file_pattern: CHANGELOG.md
+          commit_author: Author <actions@github.com>
+          token: ${{ secrets.GIT_TECHDEPLOY_TOKEN }}

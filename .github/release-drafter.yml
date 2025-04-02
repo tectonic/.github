@@ -7,9 +7,6 @@ no-changes-template: '### No changes'
 
 template: $CHANGES
 
-filter-by-commitish: true
-commitish: master
-
 categories:
   - title: ✨ Features
     labels:

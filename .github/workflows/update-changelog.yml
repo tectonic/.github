@@ -2,6 +2,9 @@ name: "Update Changelog"
 
 on:
   workflow_call:
+    secrets:
+      GIT_TECHDEPLOY_TOKEN:
+        required: true
 
 jobs:
   update:

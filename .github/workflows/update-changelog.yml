@@ -18,6 +18,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: master
+          token: ${{ secrets.GIT_TECHDEPLOY_TOKEN }}
 
       - name: "Get Latest Release Info"
         id: latest_release
@@ -57,7 +58,6 @@ jobs:
           commit_message: Update CHANGELOG
           file_pattern: CHANGELOG.md
           commit_author: Author <actions@github.com>
-          token: ${{ secrets.GIT_TECHDEPLOY_TOKEN }}
           push_options: '--force'
           status_options: '--untracked-files=no'
           create_branch: false

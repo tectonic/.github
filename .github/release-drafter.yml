@@ -32,8 +32,6 @@ exclude-labels:
   - no-changelog
   - skip-changelog
 
-include-pre-releases: true
-
 version-resolver:
   major:
     labels:

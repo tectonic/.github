@@ -40,7 +40,7 @@ jobs:
 
       - name: "Run Pint"
         if: steps.changed-files.outputs.any_changed == 'true'
-        run: ~/.composer/vendor/bin/pint --config pint.json ${{ steps.changed-files.outputs.all_changed_files }}
+        run: ~/.composer/vendor/bin/pint --config pint.json -v ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: "Commit Pint changes"
         uses: stefanzweifel/git-auto-commit-action@v5

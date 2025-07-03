@@ -26,6 +26,7 @@ jobs:
             storage
             contrib
             public
+            _ide_helper.php
 
       - name: "Install Laravel Pint"
         if: steps.changed-files.outputs.any_changed == 'true'

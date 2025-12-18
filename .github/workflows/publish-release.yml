@@ -9,47 +9,31 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    
     steps:
-      - name: "Get Releases"
-        id: get_releases
-        uses: octokit/request-action@v2.x
-        with:
-          route: GET /repos/${{ github.repository }}/releases
-          query: |
-            per_page=10
-
-      - name: "Get Draft Release ID"
-        id: draft_release_id
+      - name: "Find and Publish Draft Release"
         uses: actions/github-script@v7
         with:
-          result-encoding: string
           script: |
-            const data = process.env.DATA;
-            const releases = JSON.parse(data);
-            const draftReleases = releases.filter(release => release.draft);
+            const { data: releases } = await github.rest.repos.listReleases({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 10
+            });
 
-            if (draftReleases.length === 0) {
-              console.log("::error::No draft releases found. Cancelling workflow.");
-              process.exit(1);
+            const draftRelease = releases.find(release => release.draft);
+
+            if (!draftRelease) {
+              core.setFailed("No draft releases found. Cancelling workflow.");
+              return;
             }
 
-            const releaseId = draftReleases[0].id;
+            console.log(`Found draft release: ${draftRelease.name} (ID: ${draftRelease.id})`);
 
-            if (!releaseId) {
-              console.log("::error::No draft release ID found. Cancelling workflow.");
-              process.exit(1);
-            }
+            await github.rest.repos.updateRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: draftRelease.id,
+              draft: false
+            });
 
-            return releaseId;
-        env:
-          DATA: ${{ steps.get_releases.outputs.data }}
-
-      - name: "Publish Draft Release"
-        if: ${{ !failure() && steps.draft_release_id.outputs.result }}
-        uses: octokit/request-action@v2.x
-        with:
-          route: PATCH /repos/${{ github.repository }}/releases/${{ steps.draft_release_id.outputs.result }}
-          draft: false
+            console.log(`Successfully published release: ${draftRelease.name}`);

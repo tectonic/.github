@@ -18,6 +18,7 @@ jobs:
           set -euo pipefail
           sev="${{ github.event.alert.security_advisory.severity || github.event.alert.security_vulnerability.severity || '' }}"
           sev="$(echo "$sev" | tr '[:upper:]' '[:lower:]')"
+
           if [[ "$sev" == "high" || "$sev" == "critical" ]]; then
             echo "should_notify=true" >> "$GITHUB_OUTPUT"
             echo "severity=$sev" >> "$GITHUB_OUTPUT"
@@ -35,4 +36,4 @@ jobs:
               "text": ":rotating_light: Dependabot alert *${{ steps.gate.outputs.severity }}* in *${{ github.repository }}*\n• Package: `${{ github.event.alert.dependency.package.name }}`\n• Ecosystem: `${{ github.event.alert.dependency.package.ecosystem }}`\n• Advisory: `${{ github.event.alert.security_advisory.summary }}`\n• Link: ${{ github.event.alert.html_url }}"
             }
         env:
-          SLACK_WEBHOOK_URL_DEPENDABOT_ALERTS: ${{ secrets.SLACK_WEBHOOK_URL_DEPENDABOT_ALERTS }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_DEPENDABOT_ALERTS }}

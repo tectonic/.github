@@ -1,0 +1,38 @@
+name: Dependabot alerts -> Slack (high/critical)
+
+on:
+  workflow_call:
+    secrets:
+      SLACK_WEBHOOK_URL_DEPENDABOT_ALERTS:
+        required: true
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Decide whether to notify (high/critical only)
+        id: gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          sev="${{ github.event.alert.security_advisory.severity || github.event.alert.security_vulnerability.severity || '' }}"
+          sev="$(echo "$sev" | tr '[:upper:]' '[:lower:]')"
+          if [[ "$sev" == "high" || "$sev" == "critical" ]]; then
+            echo "should_notify=true" >> "$GITHUB_OUTPUT"
+            echo "severity=$sev" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_notify=false" >> "$GITHUB_OUTPUT"
+            echo "severity=$sev" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Send Slack notification
+        if: steps.gate.outputs.should_notify == 'true'
+        uses: slackapi/slack-github-action@v1
+        with:
+          payload: |
+            {
+              "text": ":rotating_light: Dependabot alert *${{ steps.gate.outputs.severity }}* in *${{ github.repository }}*\n• Package: `${{ github.event.alert.dependency.package.name }}`\n• Ecosystem: `${{ github.event.alert.dependency.package.ecosystem }}`\n• Advisory: `${{ github.event.alert.security_advisory.summary }}`\n• Link: ${{ github.event.alert.html_url }}"
+            }
+        env:
+          SLACK_WEBHOOK_URL_DEPENDABOT_ALERTS: ${{ secrets.SLACK_WEBHOOK_URL_DEPENDABOT_ALERTS }}

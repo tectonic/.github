@@ -19,5 +19,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.payload.pull_request.number,
-              body: 'Code review checklist:\n - Functionality\n - Code Structure and Design\n - Code Reuse and Dependencies\n - Compliance with Coding Standards\n - Readability and Maintainability\n - Performance and Efficiency\n - Error Handling and Logging\n - Security\n - Test Coverage\n - Migrations\n - Documentation\n\n For further details on the above - https://creativeforce.atlassian.net/wiki/spaces/DEV/pages/1838317578/Code+review+checklist'
+              body: 'Code review checklist:\n - Functionality\n - Code Structure and Design\n - Code Reuse and Dependencies\n - Compliance with Coding Standards\n - Readability and Maintainability\n - Performance and Efficiency\n - Error Handling and Logging\n - Security\n - Accessibility\n - Test Coverage\n - Migrations\n - Documentation\n\n For further details on the above - https://creativeforce.atlassian.net/wiki/spaces/DEV/pages/1838317578/Code+review+checklist'
             });
